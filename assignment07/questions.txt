@@ -1,0 +1,10 @@
+Please write your answers in a file called "answers.txt" with your names
+at the top in this repository. Please number each answer.
+
+1. List 3 examples of a real world queue.
+
+2. List 3 examples of a real world stack.
+
+3. If a piece of software passes all of its unit tests does it necessarily work correctly? Why or why not?
+
+4. Why is a linked list better than a fixed-size array for implementing stacks and queues?

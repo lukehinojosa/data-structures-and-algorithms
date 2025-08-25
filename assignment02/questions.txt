@@ -1,0 +1,20 @@
+Please write your answers in a file called "answers.txt" with your names
+at the top in this repository. Please number each answer.
+
+1. What is the tightest bound Big-O runtime of randomIntArray()?
+Please explain your answer (succinctly).
+
+2. What is the tightest bound Big-O runtime of arraySearchSpeed()?
+Please explain your answer (succinctly).
+
+3. In the worst case how many searches do you need to do to make it worthwhile
+to sort an array to use binary search instead of just using linear search
+if the array has 10,000 elements and is originally unsorted. Assume
+that every search will fail to find the sought element. Assume that linear
+search takes 5 instructions for each element considered and binary search takes
+ 10. Assume that every instruction takes the same amount of time. Assume that
+the sorting algorithm takes 12 * N * log(N) instructions to complete. Your 
+final answer just needs to be a single number, but show your work (math).
+
+4. The function arraySearchSpeed() returns a pair. List three alternative C++
+constructs that could have been used instead of pair as the return type.

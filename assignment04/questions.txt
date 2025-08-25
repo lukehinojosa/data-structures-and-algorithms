@@ -1,0 +1,12 @@
+Please write your answers in a file called "answers.txt" with your names
+at the top in this repository. Please number each answer.
+
+1. Why is bubbleSort() slower than selectionSort() and insertionSort()?
+Please explain your answer (succinctly).
+
+2. Why is an optimized insertionSort() faster than selectionSort()?
+Please explain your answer (succinctly).
+
+3. What property does a custom class need to have for it to be usable in an array with the three sort methods you implemented? Give a name to the concept and also explain specifically in C++ what would need to be implemented.
+
+4. Why is std::sort so much faster than any of our implementations? Is it primarily because it is better optimized, or is it something more fundamental?
