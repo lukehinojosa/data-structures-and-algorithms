@@ -26,39 +26,64 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 
 #include "CityTemperatureData.h"
+#include <stdexcept>
 
 using namespace std;
 
 namespace csi281 {
   // Fill in all instance variables for CityTemperatureData.
   // Data will be stored in an array of CityYear instances.
-  CityTemperatureData::CityTemperatureData(const string name, CityYear data[], int numYears)
-      : _name(name), _data(data), _count(numYears) {}
+  CityTemperatureData::CityTemperatureData(const string name, CityYear data[], int numYears) : _name(name), _count(numYears) {
+      _data = new CityYear[numYears];
+      for (int i = 0; i < numYears; i++) {
+          _data[i] = data[i];
+      }
+  }
 
   // Release any memory connected to CityTemperatureData.
   CityTemperatureData::~CityTemperatureData() {
-    delete _data;
+    delete[] _data;
   }
 
   // Look up a CityYear instance held by CityTemperatureData by its year.
   // Find the right CityYear in the array and return it
   const CityYear CityTemperatureData::operator[](const int year) const {
-    // YOUR CODE HERE
+    for (int i = 0; i < _count; i++) {
+      if (year == _data[i].year)
+        return _data[i];
+    }
+
+    throw out_of_range("Year not found");
   }
 
   // Get the average (mean) temperature of all time for this city
   // by averaging every CityYear.
   float CityTemperatureData::getAllTimeAverage() const {
-    // YOUR CODE HERE
+    float total = 0;
+    for (int i = 0; i < _count; i++) {
+      total += _data[i].averageTemperature;
+    }
+
+    return total / _count;
   }
 
   // Sum all of the days below 32 for all years.
   int CityTemperatureData::getTotalDaysBelow32() const {
-    // YOUR CODE HERE
+    int sum = 0;
+    for (int i = 0; i < _count; i++) {
+      sum += _data[i].numDaysBelow32;
+    }
+
+    return sum;
   }
 
   // Sum all of the days above 90 for all years.
   int CityTemperatureData::getTotalDaysAbove90() const {
-    // YOUR CODE HERE
+    int sum = 0;
+    for (int i = 0; i < _count; i++) {
+      sum += _data[i].numDaysAbove90;
+    }
+
+    return sum;
   }
 }  // namespace csi281

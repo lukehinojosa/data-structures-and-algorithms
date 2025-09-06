@@ -36,15 +36,15 @@ The goal of this assignment is to read a `.csv` file containing temperature data
 
 ## Checklist for Submission
 
-- [ ] Did you add me ([@tolstenko](https://github.com/tolstenko)) as a collaborator on the repository?
-- [ ] Did you replace every area that said "YOUR CODE HERE" with your code?
-- [ ] Did you ensure you are passing all of the unit tests? Do you see a green check mark on GitHub?
-- [ ] Did you cite all sources, especially any place that you copied code from? Put code citations right next to where you inserted them.
-- [ ] Did you add sufficient comments?
-- [ ] Did you double check your code for good style?
-- [ ] Did you remember to free any memory you manually allocated on the heap?
-- [ ] Did you put your name below mine at the top of any files you modified and any other appropriate places?
-- [ ] Did you try cleaning, building, and running once to make sure everything is in working order before submitting?
-- [ ] If you were working with an IDE, did you test building on the command line with make or nmake? I will go by the tests of your work with make or nmake done automatically by the GitHub action.
-- [ ] Did you check the repository is free of your object files and other garbage and just contains source files?
-- [ ] Did you submit the URL to your repository on Canvas?
+- [x] Did you add me ([@tolstenko](https://github.com/tolstenko)) as a collaborator on the repository?
+- [x] Did you replace every area that said "YOUR CODE HERE" with your code?
+- [x] Did you ensure you are passing all of the unit tests? Do you see a green check mark on GitHub?
+- [x] Did you cite all sources, especially any place that you copied code from? Put code citations right next to where you inserted them.
+- [x] Did you add sufficient comments?
+- [x] Did you double check your code for good style?
+- [x] Did you remember to free any memory you manually allocated on the heap?
+- [x] Did you put your name below mine at the top of any files you modified and any other appropriate places?
+- [x] Did you try cleaning, building, and running once to make sure everything is in working order before submitting?
+- [x] If you were working with an IDE, did you test building on the command line with make or nmake? I will go by the tests of your work with make or nmake done automatically by the GitHub action.
+- [x] Did you check the repository is free of your object files and other garbage and just contains source files?
+- [x] Did you submit the URL to your repository on Canvas?

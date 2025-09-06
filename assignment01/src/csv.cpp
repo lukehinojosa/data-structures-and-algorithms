@@ -30,6 +30,7 @@
 #include <algorithm>  // for remove_if()
 #include <iostream>
 #include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -38,9 +39,7 @@ namespace csi281 {
   // Remove extraneous characters from string so it can
   // be converted into a number
   void clean(string &str) {
-    string unwanted = "\"\' \t\n";
-    str.erase(
-        remove_if(str.begin(), str.end(), [&](char &c) { return !unwanted.find_first_of(c); }));
+      str.erase(remove_if(str.begin(), str.end(), [](char c){ return c == '\"' || c == '\'' || c == ' ' || c == '\t' || c == '\n'; }), str.end());
   }
 
   // Read from a input string stream we hit the next comma, or the end
@@ -74,7 +73,23 @@ namespace csi281 {
   // and the readCell() functions above
   // You'll also want to construct a CityYear from what you have read from the file
   CityYear readLine(ifstream &file) {
-    // YOUR CODE HERE
+      string line;
+      getline(file, line);
+      istringstream iss(line);
+
+      // Skip the first two columns (station and name)
+      readStringCell(iss);
+      readStringCell(iss);
+
+      CityYear cy;
+      cy.year = readIntCell(iss);
+      cy.numDaysBelow32 = readIntCell(iss);
+      cy.numDaysAbove90 = readIntCell(iss);
+      cy.averageTemperature = readFloatCell(iss);
+      cy.averageMax = readFloatCell(iss);
+      cy.averageMin = readFloatCell(iss);
+
+      return cy;
   }
 
   // Read city by looking at the specified lines in the CSV
@@ -87,5 +102,34 @@ namespace csi281 {
   // create an array of CityYear instances to pass to the CityTemperatureData constructor
   // when the CityTemperatureData is created, it will take ownership of the array
   CityTemperatureData* readCity(string cityName, string fileName, int startLine, int endLine) {
+    ifstream file(fileName);
+    if (file.is_open())
+    {
+      string line;
+      // Skip header line
+      getline(file, line);
+
+      for (int i = 0; i < startLine - 1; i++)
+      {
+          getline(file, line);
+      }
+
+      int numYears = endLine - startLine + 1;
+      CityYear* cityYears = new CityYear[numYears];
+
+      for (int i = 0; i < numYears; i++)
+      {
+          cityYears[i] = readLine(file);
+      }
+
+      file.close();
+
+      return new CityTemperatureData(cityName, cityYears, numYears);
+    }
+    else
+    {
+      cout << "Error opening file " << fileName << " for reading." << endl;
+      return nullptr;
+    }
   }
 }  // namespace csi281
