@@ -81,12 +81,52 @@ namespace csi281 {
     // Do numTests linear searches and find the average time
     // Put the result in a variable linearSearchSpeed
 
-    // YOUR CODE HERE
+    auto linearSearchSpeed = 0;
+    for (int i = 0; i < numTests; i++) {
+      auto start = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+      for (int j = 0; j < length; j++) {
+        if (testKeys[i] == testArray[j]) {
+          auto end = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+          linearSearchSpeed += end - start;
+          break;
+        }
+      }
+    }
+    linearSearchSpeed /= numTests;
 
     // Do numTests binary searches and find the average time
     // Put the result in a variable binarySearchSpeed
 
-    // YOUR CODE HERE
+    auto binarySearchSpeed = 0;
+    for (int i = 0; i < numTests; i++) {
+      auto start = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+
+      int left = 0;
+      int right = length - 1;
+      int middle = (right - left) / 2;
+
+      bool found = false;
+      while (!found) {
+        if (testArray[middle] == testKeys[i]) {
+          auto end = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+          linearSearchSpeed += end - start;
+          found = true;
+        }
+        else if (left >= right) {
+          auto end = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+          linearSearchSpeed += end - start;
+          break;
+        }
+        else if (testArray[middle] < testKeys[i]) {
+          left = middle + 1;
+          middle = (right - left) / 2 + left;
+        }
+        else if (testArray[middle] > testKeys[i]) {
+          right = middle - 1;
+          middle = (right - left) / 2 + left;
+        }
+      }
+    }
 
     delete testArray;
     delete testKeys;

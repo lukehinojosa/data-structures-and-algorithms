@@ -36,13 +36,40 @@ namespace csi281 {
   // Returns the first location of the found key
   // or -1 if the key is never found
   template <typename T> int linearSearch(T array[], const int length, const T key) {
-    // YOUR CODE HERE
+    for (int i = 0; i < length; i++) {
+      if (key == array[i]) {
+        return i;
+      }
+    }
+
+    return -1;
   }
 
   // Returns the first location of the found key
   // or -1 if the key is never found; assumes a sorted array
   template <typename T> int binarySearch(T array[], const int length, const T key) {
-    // YOUR CODE HERE
+    int left = 0;
+    int right = length - 1;
+    int middle = (right - left) / 2;
+
+    bool found = false;
+    while (!found) {
+      if (array[middle] == key) {
+        found = true;
+        return middle;
+      }
+      else if (left >= right) {
+        return -1;
+      }
+      else if (array[middle] < key) {
+        left = middle + 1;
+        middle = (right - left) / 2 + left;
+      }
+      else if (array[middle] > key) {
+        right = middle - 1;
+        middle = (right - left) / 2 + left;
+      }
+    }
   }
 }  // namespace csi281
 
