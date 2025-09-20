@@ -28,6 +28,8 @@
 #ifndef linkedlist_hpp
 #define linkedlist_hpp
 
+#include <cassert>
+
 #include "Collection.h"
 #include "MemoryLeakDetector.h"
 
@@ -53,24 +55,53 @@ namespace csi281 {
     // Find the index of a particular item
     // Return -1 if it is not found
     int find(const T &item) {
-      // YOUR CODE HERE
+      Node *temp = head;
+      int index = 0;
+      while (temp != nullptr) {
+        if (temp->data == item) {
+          return index;
+        }
+        temp = temp->next;
+        index++;
+      }
+      return -1;
     }
 
     // Get the item at a particular index
     T &get(int index) {
-      assert(index < count);  // can't insert off end
+      assert(index < count);  // can't get item off end
       assert(index >= 0);     // no negative indices
-                              // YOUR CODE HERE
+
+      Node *temp = head;
+      for (int i = 0; i < index; i++) {
+        temp = temp->next;
+      }
+      return temp->data;
     }
 
     // Insert at the beginning of the collection
     void insertAtBeginning(const T &item) {
-      // YOUR CODE HERE
+      Node *newNode = new Node(item);
+      newNode->next = head;
+      head = newNode;
+
+      if (count == 0) {
+        tail = head;
+      }
+      count++;
     }
 
     // Insert at the end of the collection
     void insertAtEnd(const T &item) {
-      // YOUR CODE HERE
+      Node *newNode = new Node(item);
+      if (count == 0) {
+        head = newNode;
+        tail = newNode;
+      } else {
+        tail->next = newNode;
+        tail = newNode;
+      }
+      count++;
     }
 
     // Insert at a specific index
@@ -85,30 +116,48 @@ namespace csi281 {
         insertAtEnd(item);
         return;
       }
-      int location = 0;
-      for (Node *current = head; current != nullptr; current = current->next) {
-        if (location == (index - 1)) {
-          Node *after = current->next;
-          Node *thing = new Node(item);
-          current->next = thing;
-          thing->next = after;
-          count++;
-          return;
-        }
-        location++;
+      Node *current = head;
+      for (int i = 0; i < index - 1; i++) {
+          current = current->next;
       }
+      Node *newNode = new Node(item);
+      newNode->next = current->next;
+      current->next = newNode;
+      count++;
     }
 
     // Remove the item at the beginning of the collection
     void removeAtBeginning() {
       assert(count > 0);
-      // YOUR CODE HERE
+
+      Node *temp = head;
+      head = head->next;
+      delete temp;
+      count--;
+      if (count == 0) {
+        tail = nullptr;
+      }
     }
 
     // Remove the item at the end of the collection
     void removeAtEnd() {
       assert(count > 0);
-      // YOUR CODE HERE
+
+      if (count == 1) {
+          removeAtBeginning();
+          return;
+      }
+
+      Node *current = head;
+      // Find the second to last node
+      while (current->next != tail) {
+        current = current->next;
+      }
+
+      delete tail;
+      tail = current;
+      tail->next = nullptr;
+      count--;
     }
 
     // Remove the item at a specific index
@@ -125,17 +174,15 @@ namespace csi281 {
         return;
       }
 
-      int location = 0;
-      for (Node *current = head; current != nullptr; current = current->next) {
-        if (location == (index - 1)) {
-          Node *after = current->next->next;
-          delete (current->next);
-          current->next = after;
-          count--;
-          return;
-        }
-        location++;
+      Node *current = head;
+      for (int i = 0; i < index - 1; i++) {
+          current = current->next;
       }
+
+      Node *nodeToDelete = current->next;
+      current->next = nodeToDelete->next;
+      delete nodeToDelete;
+      count--;
     }
 
   protected:

@@ -29,7 +29,7 @@
 #define dynamicarray_hpp
 
 #include <algorithm>  // for copy(), min(), move_backward
-                      // for assert()
+#include <cassert>
 
 #include "Collection.h"
 #include "MemoryLeakDetector.h"
@@ -51,55 +51,65 @@ namespace csi281 {
     ~DynamicArray() { delete[] backingStore; }
 
     // Find the index of a particular item
-    // Return -1 if it is not found>
+    // Return -1 if it is not found
     int find(const T &item) {
-      // YOUR CODE HERE
+      for (int i = 0; i < count; i++) {
+        if (item == backingStore[i]) {
+          return i;
+        }
+      }
+      return -1;
     }
 
     // Get the item at a particular index
     T &get(int index) {
-      // YOUR CODE HERE
+      assert(index >= 0 && index < count); // check bounds
+      return backingStore[index];
     }
 
     // Insert at the beginning of the collection
-    // Using setCapacity() if we are too small before
-    // inserting
-    // Hint: May want to use moveDownFrom()
     void insertAtBeginning(const T &item) {
-      // YOUR CODE HERE
+      insert(item, 0);
     }
 
     // Insert at the end of the collection
-    // Using setCapacity() if we are too small before
-    // inserting
     void insertAtEnd(const T &item) {
-      // YOUR CODE HERE
+      insert(item, count);
     }
 
     // Insert at a specific index
-    // Using setCapacity() if we are too small before
-    // inserting
-    // Hint: May want to use moveDownFrom()
     void insert(const T &item, int index) {
-      // YOUR CODE HERE
+      assert(index >= 0 && index <= count); // Insertion index can be equal to count
+      if (capacity == count) {
+        setCapacity(capacity * growthFactor);
+      }
+
+      moveDownFrom(index);
+      backingStore[index] = item;
+      count++;
     }
 
     // Remove the item at the beginning of the collection
     void removeAtBeginning() {
-      // YOUR CODE HERE
+      removeAt(0);
     }
 
     // Remove the item at the end of the collection
-    // Hint: This might be very simple.
     void removeAtEnd() {
-      // YOUR CODE HERE
+      assert(count > 0);
+      // More efficient: no need to shift elements
+      count--;
     }
 
     // Remove the item at a specific index
-    // Hint: Can be done by a combination of moving items
-    // down and removing the starting beginning element
     void removeAt(int index) {
-      // YOUR CODE HERE
+      assert(index >= 0 && index < count);
+      // Shift all elements after `index` one position to the left
+      // Corrected: loop condition should be `i < count - 1`
+      for (int i = index; i < count - 1; i++) {
+        backingStore[i] = backingStore[i + 1];
+      }
+      count--;
     }
 
     // Change the capacity of the dynamic array
@@ -143,7 +153,6 @@ namespace csi281 {
       move_backward(backingStore + index, backingStore + count, backingStore + count + 1);
     }
   };
-
 }  // namespace csi281
 
 #endif /* dynamicarray_hpp */
