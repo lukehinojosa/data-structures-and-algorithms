@@ -1,0 +1,7 @@
+1. Bubble sort is worse than selection and insertion sort because of it's higher number of swaps and comparisons.
+
+2. An optimized insertion sort is faster than selection sort because selection sort is always going to take O(n^2), whereas an optimized insertion sort makes fewer comparisons.
+
+3. The class would need operator overloads to compare the values to be compared in order to sort it.
+
+4. std::sort using faster algorithms that run at O(n log n) and switches between the algorithms for speed. std::sort also accesses the cache on the computer to access data faster.

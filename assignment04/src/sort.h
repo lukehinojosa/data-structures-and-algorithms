@@ -39,19 +39,53 @@ namespace csi281 {
   // Performs an in-place ascending sort of *array* of size *length*
   // using the bubble sort algorithm
   template <typename T> void bubbleSort(T array[], const int length) {
-    // YOUR CODE HERE
+    bool swapped = true;
+    while (swapped)
+    {
+      swapped = false;
+      for (int i = 0; i < length - 1; i++)
+      {
+        if (array[i] > array[i + 1])
+        {
+          swap(array[i], array[i + 1]);
+          swapped = true;
+        }
+      }
+    }
   }
 
   // Performs an in-place ascending sort of *array* of size *length*
   // using the selection sort algorithm
   template <typename T> void selectionSort(T array[], const int length) {
-    // YOUR CODE HERE
+    int indexSmallest = 0, indexSorted = 0;
+    while (indexSorted < length)
+    {
+      for (int i = indexSorted; i < length; i++)
+      {
+        if (array[i] < array[indexSmallest])
+        {
+          indexSmallest = i;
+        }
+      }
+      swap(array[indexSmallest], array[indexSorted]);
+      indexSorted++;
+      indexSmallest = indexSorted;
+    }
   }
 
   // Performs an in-place ascending sort of *array* of size *length*
   // using the insertion sort algorithm
   template <typename T> void insertionSort(T array[], const int length) {
-    // YOUR CODE HERE
+    for (int i = 1; i < length; i++)
+    {
+      for (int j = i; j > 0; j--)
+      {
+        if (array[j] < array[j - 1])
+        {
+          swap(array[j], array[j - 1]);
+        }
+      }
+    }
   }
 }  // namespace csi281
 
