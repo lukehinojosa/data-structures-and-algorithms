@@ -1,11 +1,17 @@
 Luke Hinojosa
 
-1. The tightest bound Big O for randomIntArray() is O(n), where n is the length of the array.
+1.
 
-2. The tightest bound Big O for arraySearchSpeed() is O(numTests * length).
-    randomIntArray() + randomIntArray() + LinearSearch tests + Binary Search Tests
-    O(length) + O(numTests) + O(numTests * length) + O(numTests * log(length))
-    The Linear Search tests affect the tightest bound the most.
+The tightest bound Big O for randomIntArray() is O(n), where n is the length of the array.
+
+2.
+
+The tightest bound Big O for arraySearchSpeed() is O(numTests * length).
+The total runtime is determined by the sum of the complexities of the operations within the function. The dominant growth factors are the loops that perform the searches.
+Linear Search Tests: The linear search has a complexity of O(length) and is performed numTests times, resulting in O(numTests * length).
+Binary Search Tests: The binary search has a complexity of O(log length) and is performed numTests times, resulting in O(numTests * log length).
+The term that grows the fastest is O(numTests * length) from the linear search loop, which therefore dominates the overall runtime.
+If numTests and length are the same input size n, this can be expressed as O(n^2).
 
 3.
 
@@ -36,3 +42,12 @@ At 32 searches, the costs between the two are equal.
 
 I would need to do 33 searches to make soring the array and using
 binary search a more efficient method than linear search.
+
+4.
+
+A struct: A struct can be defined to hold the two return values.
+std::tuple: An std::tuple can be used to return multiple values. Kind of like std::pair, but with more values
+std::array: An std::array<long, 2> can be used to return a fixed-size array containing the two time values.
+
+https://stackoverflow.com/questions/321068/returning-multiple-values-from-a-c-function
+https://en.cppreference.com/w/cpp/container/array.html
