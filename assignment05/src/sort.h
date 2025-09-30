@@ -48,7 +48,16 @@ namespace csi281 {
   // NOTE: Your solution MUST use std::inplace_merge
   // http://www.cplusplus.com/reference/algorithm/inplace_merge/
   template <typename T> void mergeSort(T array[], const int start, const int end) {
-    // YOUR CODE HERE
+    // Base case: Continue as long as there is more than one element.
+    // If start >= end, the segment has 0 or 1 elements, which is already sorted.
+    if (start < end)
+    {
+      int middle = start + (end - start) / 2;
+      mergeSort(array, start, middle);
+      mergeSort(array, middle + 1, end);
+
+      std::inplace_merge(array + start, array + middle + 1, array + end + 1);
+    }
   }
 
   // setup random number generator
@@ -56,6 +65,35 @@ namespace csi281 {
   static mt19937 rng(rd());
   // you can use uniform_int_distribution and rng to create
   // a random int in a certain range
+
+  // partition
+  // I took heavy inspiration from the examples on gameguild.gg
+  template <typename T> int partition(T array[], const int start, const int end)
+  {
+    uniform_int_distribution<int> uni(start, end);
+    int pivotIndex = uni(rng);
+    swap(array[start], array[pivotIndex]);
+
+    int pivot = start;
+    int left = start + 1;
+    int right = end;
+
+    while (left <= right)
+    {
+      if (array[left] <= array[pivot])
+        left++;
+      else if (array[right] > array[pivot])
+        right--;
+      else
+      {
+        swap(array[left], array[right]);
+        left++;
+        right--;
+      }
+    }
+    swap(array[pivot], array[right]);
+    return right;
+  }
 
   // Performs an in-place ascending sort of *array*
   // using the quicksort algorithm
@@ -69,7 +107,12 @@ namespace csi281 {
   // sort the center of the range, and then move the pivot back to
   // the appropriate place
   template <typename T> void quickSort(T array[], const int start, const int end) {
-    // YOUR CODE HERE
+    if (start < end)
+    {
+      int pivot = partition(array, start, end);
+      quickSort(array, start, pivot - 1);
+      quickSort(array, pivot + 1, end);
+    }
   }
 
   // Performs an in-place ascending sort of *array*
@@ -85,7 +128,20 @@ namespace csi281 {
   // NOTE: You will need to modify the implementation to only
   // sort part of the array as per the parameters of this version
   template <typename T> void insertionSort(T array[], const int start, const int end) {
-    // YOUR CODE HERE
+    if (end + 1 <= 1)
+      return;
+
+    for (int i = start + 1; i < end + 1; i++)
+    {
+      for (int j = i; j > start; j--)
+      {
+        if (array[j] < array[j - 1])
+        {
+          swap(array[j], array[j - 1]);
+        }
+        else break;
+      }
+    }
   }
 
   // Performs an in-place ascending sort of *array*
@@ -97,9 +153,28 @@ namespace csi281 {
   // TIP: You can copy your implementation of merge sort in here, and
   // should be able to call the insertionSort above
   template <typename T> void hybridSort(T array[], const int start, const int end) {
-    // YOUR CODE HERE
-  }
+    // Base case for recursion: if the partition is invalid or has one element, it's sorted.
+    if (start >= end) {
+      return;
+    }
 
+    // If the number of elements is below 10,
+    // switch to the more efficient insertion sort for small arrays.
+    if (end - start + 1 < 10)
+      insertionSort(array, start, end);
+    // Otherwise, merge sort for larger arrays
+    else
+    {
+      int middle = start + (end - start) / 2;
+
+      // Recursively sort the two halves.
+      hybridSort(array, start, middle);
+      hybridSort(array, middle + 1, end);
+
+      // Merge the two sorted halves.
+      std::inplace_merge(array + start, array + middle + 1, array + end + 1);
+    }
+  }
 }  // namespace csi281
 
 #endif /* sort_hpp */
