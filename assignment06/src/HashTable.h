@@ -65,7 +65,27 @@ namespace csi281 {
     // location in the backing store, so you're modifying
     // the original and not a copy
     void put(const K key, const V value) {
-      // YOUR CODE HERE
+      // Determine bucket index
+      size_t index = hashKey(key);
+      list<pair<K, V>> &bucket = backingStore[index];
+
+      // Check if key already exists; if so, update value
+      auto it = find_if(bucket.begin(), bucket.end(), [&](const pair<K, V> &p) {
+        return p.first == key;
+      });
+      if (it != bucket.end()) {
+        it->second = value;
+        return;
+      }
+
+      // Insert new key-value pair
+      bucket.push_back(make_pair(key, value));
+      count++;
+
+      // Check load factor and resize if needed
+      if (getLoadFactor() > MAX_LOAD_FACTOR) {
+        resize(capacity * growthFactor);
+      }
     }
 
     // Get the item associated with a particular key
@@ -78,7 +98,15 @@ namespace csi281 {
     // location in the backing store, so you're modifying
     // the original and not a copy
     optional<V> get(const K &key) {
-      // YOUR CODE HERE
+      size_t index = hashKey(key);
+      list<pair<K, V>> &bucket = backingStore[index];
+      auto it = find_if(bucket.begin(), bucket.end(), [&](const pair<K, V> &p) {
+        return p.first == key;
+      });
+      if (it != bucket.end()) {
+        return optional<V>(it->second);
+      }
+      return nullopt;
     }
 
     // Remove a key and any associated value from the hash table
@@ -88,7 +116,14 @@ namespace csi281 {
     // location in the backing store, so you're modifying
     // the original and not a copy
     void remove(const K &key) {
-      // YOUR CODE HERE
+      size_t index = hashKey(key);
+      list<pair<K, V>> &bucket = backingStore[index];
+      size_t before = bucket.size();
+      bucket.remove_if([&](const pair<K, V> &p) { return p.first == key; });
+      size_t after = bucket.size();
+      if (after < before) {
+        count -= static_cast<int>(before - after);
+      }
     }
 
     // Calculate and return the load factor
@@ -122,13 +157,30 @@ namespace csi281 {
     // new backing store of size cap, or create
     // the backingStore for the first time
     void resize(int cap) {
-      // YOUR CODE HERE
+      if (cap < 1) cap = 1;
+
+      // Allocate new backing store
+      list<pair<K, V>> *newStore = new list<pair<K, V>>[cap];
+
+      // Rehash existing items into new store
+      if (backingStore != nullptr && capacity > 0) {
+        for (int i = 0; i < capacity; i++) {
+          for (const auto &p : backingStore[i]) {
+            size_t newIndex = key_hash(p.first) % static_cast<size_t>(cap);
+            newStore[newIndex].push_back(p);
+          }
+        }
+        delete[] backingStore;
+      }
+
+      backingStore = newStore;
+      capacity = cap;
     }
 
     // hash anything into an integer appropriate for
     // the current capacity
     // TIP: use the std::hash key_hash defined as a private variable
-    size_t hashKey(const K &key) { return key_hash(key); }
+    size_t hashKey(const K &key) { return capacity > 0 ? (key_hash(key) % static_cast<size_t>(capacity)) : 0; }
   };
 
 }  // namespace csi281
