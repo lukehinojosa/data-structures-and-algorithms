@@ -66,7 +66,7 @@ namespace csi281 {
     // the original and not a copy
     void put(const K key, const V value) {
       // Determine bucket index
-      size_t index = hashKey(key);
+      size_t index = hashKey(key) % static_cast<size_t>(capacity);
       list<pair<K, V>> &bucket = backingStore[index];
 
       // Check if key already exists; if so, update value
@@ -98,7 +98,7 @@ namespace csi281 {
     // location in the backing store, so you're modifying
     // the original and not a copy
     optional<V> get(const K &key) {
-      size_t index = hashKey(key);
+      size_t index = hashKey(key) % static_cast<size_t>(capacity);
       list<pair<K, V>> &bucket = backingStore[index];
       auto it = find_if(bucket.begin(), bucket.end(), [&](const pair<K, V> &p) {
         return p.first == key;
@@ -116,7 +116,7 @@ namespace csi281 {
     // location in the backing store, so you're modifying
     // the original and not a copy
     void remove(const K &key) {
-      size_t index = hashKey(key);
+      size_t index = hashKey(key) % static_cast<size_t>(capacity);
       list<pair<K, V>> &bucket = backingStore[index];
       size_t before = bucket.size();
       bucket.remove_if([&](const pair<K, V> &p) { return p.first == key; });
@@ -180,7 +180,7 @@ namespace csi281 {
     // hash anything into an integer appropriate for
     // the current capacity
     // TIP: use the std::hash key_hash defined as a private variable
-    size_t hashKey(const K &key) { return capacity > 0 ? (key_hash(key) % static_cast<size_t>(capacity)) : 0; }
+    size_t hashKey(const K &key) { return key_hash(key); }
   };
 
 }  // namespace csi281
