@@ -30,13 +30,38 @@
 #define stack_hpp
 
 #include "SequentialCollection.h"
+#include <stdexcept>
 
 using namespace std;
 
 namespace csi281 {
   template <typename T> class Stack : public SequentialCollection<T> {
   public:
-    // YOUR CODE HERE
+    // In a stack, push to the back and pop from the back (LIFO)
+    // Adds an item to the top of the stack.
+    void push(const T &item) override {
+        this->backingStore.push_back(item);
+    }
+
+    // Removes and returns the top item from the stack.
+    T pop() override {
+        // Throw an error if the stack is empty.
+        if (this->backingStore.empty()) {
+            throw std::runtime_error("Stack is empty");
+        }
+        T item = this->backingStore.back();
+        this->backingStore.pop_back();
+        return item;
+    }
+
+    // Returns the top item from the stack without removing it.
+    T &peek() override {
+        // Throw an error if the stack is empty.
+        if (this->backingStore.empty()) {
+            throw std::runtime_error("Stack is empty");
+        }
+        return this->backingStore.back();
+    }
   protected:
     using SequentialCollection<T>::backingStore;
   };

@@ -23,20 +23,45 @@
 //  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 //  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
 //  OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-//  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+//  ARISING FROM, OUT of OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
 
 #ifndef queue_hpp
 #define queue_hpp
 
 #include "SequentialCollection.h"
+#include <stdexcept>
 
 using namespace std;
 
 namespace csi281 {
   template <typename T> class Queue : public SequentialCollection<T> {
   public:
-    // YOUR CODE HERE
+    // In a queue, push to the back and pop from the front (FIFO)
+    // Adds an item to the end of the queue.
+    void push(const T &item) override {
+        this->backingStore.push_back(item);
+    }
+
+    // Removes and returns the front item from the queue.
+    T pop() override {
+        // Throw an error if the queue is empty.
+        if (this->backingStore.empty()) {
+            throw std::runtime_error("Queue is empty");
+        }
+        T item = this->backingStore.front();
+        this->backingStore.pop_front();
+        return item;
+    }
+
+    // Returns the front item from the queue without removing it.
+    T &peek() override {
+        // Throw an error if the queue is empty.
+        if (this->backingStore.empty()) {
+            throw std::runtime_error("Queue is empty");
+        }
+        return this->backingStore.front();
+    }
   protected:
     using SequentialCollection<T>::backingStore;
   };

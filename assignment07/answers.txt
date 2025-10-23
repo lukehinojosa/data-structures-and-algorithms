@@ -1,0 +1,18 @@
+Luke Hinojosa
+
+1. Queue examples:
+   People wait in a queue to get on a ride for an amusement park ride.
+   A factory production line for the construction of a product.
+   Many games use input buffering to let the player input multiple times in a frame, and the queue retains the order.
+
+2. Stack examples:
+   A stack of paper.
+   The undo history in an editor.
+   Backtracking in general.
+
+3. No. Unit tests only check for issues that developers anticipated and wrote tests for. They can fail to account for
+real user situations.
+
+4. Linked lists are better than fixed-size arrays for implementing stacks and queues because they are able to be
+dynamically resized. Linked lists are also O(1) to add and remove to the head or tail. A pop for a queue with a
+fixed-array would be O(n) since it would need to shift everything to the left.
