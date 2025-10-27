@@ -36,6 +36,7 @@
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
+#include <cassert>
 
 #include "MemoryLeakDetector.h"
 
@@ -74,7 +75,14 @@ namespace csi281 {
     // Determines whether there is an edge between *from* and *to*
     // if either is not in the graph, return false
     bool edgeExists(const V &from, const V &to) {
-      // YOUR CODE HERE
+      // First, check if the 'from' vertex exists in the graph.
+      // If it doesn't, an edge can't exist, so return false.
+      if (adjacencyList.find(from) == adjacencyList.end()) {
+        return false;
+      }
+      // If the 'from' vertex exists, check if its set of neighbors contains 'to'.
+      // The 'count' method on unordered_set returns 1 if the element is present, and 0 otherwise.
+      return adjacencyList[from].count(to) > 0;
     }
 
     using Path = list<V>;
@@ -102,9 +110,38 @@ namespace csi281 {
       // the start node came from nowhere, so we mark its parent as itself
       explored[start] = start;
 
-      // YOUR CODE HERE
-      // TIP: Start by defining a frontier and putting start onto it.
-      // TIP: Follow the pseudocode from the slides from class
+      // The frontier is a stack for DFS, representing nodes to visit.
+      stack<V> frontier;
+      // Start the search from the 'start' node.
+      frontier.push(start);
+
+      // Continue searching as long as there are nodes in the frontier.
+      while (!frontier.empty()) {
+        // Get the next node to visit from the top of the stack.
+        V current = frontier.top();
+        frontier.pop();
+
+        // If the current node is the goal, a path has been found.
+        if (current == goal) {
+          // Create a mutable copy of goal because pathMapToPath requires a non-const reference.
+          V mutableGoal = goal;
+          // Reconstruct and return the path.
+          return pathMapToPath(explored, mutableGoal);
+        }
+
+        // Explore the neighbors of the current node.
+        for (const V &neighbor : neighbors(current)) {
+          // If the neighbor has not been explored yet
+          if (explored.find(neighbor) == explored.end()) {
+            // Mark it as explored and record the current path.
+            explored[neighbor] = current;
+            // Add the neighbor to the frontier to visit later.
+            frontier.push(neighbor);
+          }
+        }
+      }
+      // If the frontier is empty and the goal was not found, no path exists.
+      return nullopt;
     }
 
     // Perform a breadth-first search from *start*, looking for *goal*
@@ -116,10 +153,38 @@ namespace csi281 {
       // the start node came from nowhere, so we mark its parent as itself
       explored[start] = start;
 
-      // YOUR CODE HERE
-      // TIP: Start by defining a frontier and putting start onto it.
-      // TIP: Follow the pseudocode from the slides from class
-      // TIP: This should be very similar to dfs
+      // The frontier is a queue for BFS, representing nodes to visit.
+      queue<V> frontier;
+      // Start the search from the 'start' node.
+      frontier.push(start);
+
+      // Continue searching as long as there are nodes in the frontier.
+      while (!frontier.empty()) {
+        // Get the next node to visit from the front of the queue.
+        V current = frontier.front();
+        frontier.pop();
+
+        // If the current node is the goal, we've found a path.
+        if (current == goal) {
+          // Create a mutable copy of goal because pathMapToPath requires a non-const reference.
+          V mutableGoal = goal;
+          // Reconstruct and return the path.
+          return pathMapToPath(explored, mutableGoal);
+        }
+
+        // Explore the neighbors of the current node.
+        for (const V &neighbor : neighbors(current)) {
+          // If the neighbor has not been explored yet...
+          if (explored.find(neighbor) == explored.end()) {
+            // Mark it as explored and record how we got here (the parent).
+            explored[neighbor] = current;
+            // Add the neighbor to the frontier to visit later.
+            frontier.push(neighbor);
+          }
+        }
+      }
+      // If the frontier is empty and the goal was not found, no path exists.
+      return nullopt;
     }
 
     // Utility function if you need it
