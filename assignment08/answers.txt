@@ -1,0 +1,18 @@
+Luke Hinojosa
+
+1. It depends. If the goal is closer to the start, then bfs will be better as it doesn't have to travel as deep.
+If the goal is far from the start, then dfs could be faster since it wouldn't have to check many short paths.
+
+2. The worst cse Big-O of bfs is O(V + E), vertices + edges.
+Worst case, bfs has to visit every single vertex and move through every single edge before finding the goal.
+Each vertex is enqueued and dequeued once.
+When a vertex is being processed, all adjacent edges are checked.
+
+3. An Adjacency Matrix would have a Big O memory complexity of O(V^2), since it has to store a value for every
+possible connection between every pair of users on eg. Facebook.
+An adjacency list only stores existing connections, so it's memory Big O would be O(V + E).
+-Grokking Algorithms
+
+4. Choose Your Own Adventure book. You follow one story path to the end.
+To see a different ending, you go back to the last decision and choose another option,
+following the new path to its end.

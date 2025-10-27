@@ -40,17 +40,17 @@ There are no standard library restrictions.
 
 ## Checklist for Submission
 
-- [ ] Did you add me ([@tolstenko](https://github.com/tolstenko)) as a collaborator on the repository?
-- [ ] Did you replace every area that said "YOUR CODE HERE" with your code?
-- [ ] Did you ensure you are passing all of the unit tests? Do you see a green check mark on GitHub?
-- [ ] Did you cite all sources, especially any place that you copied code from? Put code citations right next to where you inserted them.
-- [ ] Did you add sufficient comments?
-- [ ] Did you double check your code for good style?
-- [ ] Did you remember to free any memory you manually allocated on the heap?
-- [ ] Did you put your name below mine at the top of any files you modified and any other appropriate places?
-- [ ] Did you try cleaning, building, and running once to make sure everything is in working order before submitting?
-- [ ] If you were working with an IDE, did you test building on the command line with make or nmake? I will go by the tests of your work with make or nmake done automatically by the GitHub action.
-- [ ] Did you check the repository is free of your object files and other garbage and just contains source files?
-- [ ] Did you submit the URL to your repository on Canvas?
-- [ ] Did you remember to include your `answers.txt` file with answers to every question?
+- [X] Did you add me ([@tolstenko](https://github.com/tolstenko)) as a collaborator on the repository?
+- [X] Did you replace every area that said "YOUR CODE HERE" with your code?
+- [X] Did you ensure you are passing all of the unit tests? Do you see a green check mark on GitHub?
+- [X] Did you cite all sources, especially any place that you copied code from? Put code citations right next to where you inserted them.
+- [X] Did you add sufficient comments?
+- [X] Did you double check your code for good style?
+- [X] Did you remember to free any memory you manually allocated on the heap?
+- [X] Did you put your name below mine at the top of any files you modified and any other appropriate places?
+- [X] Did you try cleaning, building, and running once to make sure everything is in working order before submitting?
+- [X] If you were working with an IDE, did you test building on the command line with make or nmake? I will go by the tests of your work with make or nmake done automatically by the GitHub action.
+- [X] Did you check the repository is free of your object files and other garbage and just contains source files?
+- [X] Did you submit the URL to your repository on Canvas?
+- [X] Did you remember to include your `answers.txt` file with answers to every question?
 
