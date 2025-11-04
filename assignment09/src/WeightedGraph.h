@@ -37,7 +37,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-
+#include <cassert>
 #include "MemoryLeakDetector.h"
 
 using namespace std;
@@ -126,19 +126,31 @@ namespace csi281 {
           = priority_queue<pair<W, V>, vector<pair<W, V>>, greater<pair<W, V>>>();
       frontier.push(make_pair(0, start));
 
-      // YOUR CODE HERE
-      // NOTE: You must use the constructs defined at
-      // the beginning of this method in your code.
-      // NOTE: Because the majority of the grade is based on the
-      // few (10-15) lines of code you need to write here, unlike
-      // previous assignments, I will not help you write it.
-      // However, of course I am happy to answer any of your
-      // conceptual questions around Dijkstra's algorithm
-      // or specific questions about C++ or how the
-      // WeightedGraph class works. Remember, you have pseudocode
-      // from class, from your book, and you are free to
-      // use other pseudocode as long as you cite it. Please
-      // do not look at other C++ solutions.
+
+      // While there are still vertices to visit in the frontier
+      while (!frontier.empty()) {
+          // Get the vertex with the smallest weight from the frontier
+          V current = frontier.top().second;
+          frontier.pop();
+          // Get the weight of the current vertex
+          W currentWeight = weights[current];
+
+          // For each neighbor of the current vertex
+          for (auto const& edge : neighborsWithWeights(current)) {
+              V neighbor = edge.first;
+              // Calculate the new weight to reach the neighbor through the current vertex
+              W newWeight = currentWeight + edge.second;
+              // If the neighbor has not been visited yet, or a shorter path has been found
+              if (weights.find(neighbor) == weights.end() || newWeight < weights[neighbor]) {
+                  // Update the weight of the neighbor
+                  weights[neighbor] = newWeight;
+                  // Set the current vertex as the parent of the neighbor
+                  parents[neighbor] = current;
+                  // Add the neighbor to the frontier to visit later
+                  frontier.push(make_pair(newWeight, neighbor));
+              }
+          }
+      }
 
       return make_pair(parents, weights);
     }

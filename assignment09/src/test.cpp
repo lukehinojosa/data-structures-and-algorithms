@@ -171,11 +171,56 @@ TEST_CASE("dijkstra() cityGraph2 Test", "[dijksta]") {
   }
 }
 
-// YOUR CODE HERE
-// ADD YOUR OWN TEST CASE
-// Prove that dijkstra() works correctly in your own test case,
-// using the methods of WeightedGraph.
-// You should make up your own graph and test it. Do not
-// reuse cityGraph or cityGraph2. Cite any sources.
-// Make sure that your assertions are fairly comprehensive.
-// Look at the prior two tests as examples.
+TEST_CASE("dijkstra() myGraph Test", "[dijkstra]") {
+    // Create a new weighted graph
+    WeightedGraph<string, int> myGraph = WeightedGraph<string, int>();
+    // Add edges to the graph
+    myGraph.addEdge("A", "B", 1);
+    myGraph.addEdge("A", "C", 4);
+    myGraph.addEdge("B", "C", 2);
+    myGraph.addEdge("B", "D", 5);
+    myGraph.addEdge("C", "D", 1);
+
+    cout << "------myGraph------" << endl;
+    // Print the graph for debugging purposes
+    myGraph.debugPrint();
+    // Run Dijkstra's algorithm starting from vertex "A"
+    auto resultPair = myGraph.dijkstra("A");
+    auto parentResults = resultPair.first;
+    auto weightResults = resultPair.second;
+
+    // Check if the distances from "A" are correct
+    CHECK(weightResults["B"] == 1);
+    CHECK(weightResults["C"] == 3);
+    CHECK(weightResults["D"] == 4);
+
+    // Get the shortest path from "A" to "D"
+    auto path = myGraph.pathMapToPath(parentResults, "D");
+    cout << "------myGraph path------" << endl;
+    // Print the path for debugging purposes
+    printPath(path);
+    // The shortest path should be A -> B -> C -> D
+    CHECK(path.size() == 4);
+    CHECK(path.front() == "A");
+    CHECK(path.back() == "D");
+    
+    // Check the path contents
+    auto it = path.begin();
+    CHECK(*it == "A");
+    it++;
+    CHECK(*it == "B");
+    it++;
+    CHECK(*it == "C");
+    it++;
+    CHECK(*it == "D");
+
+    // Check if the edges in the path exist
+    it = path.begin();
+    auto last = path.front();
+    for (unsigned long i = 1; i < path.size(); i++) {
+        it++;
+        auto current = *it;
+        CHECK(myGraph.edgeExists(last, current));
+        last = current;
+    }
+}
