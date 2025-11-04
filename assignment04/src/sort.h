@@ -57,6 +57,21 @@ namespace csi281 {
   // Performs an in-place ascending sort of *array* of size *length*
   // using the selection sort algorithm
   template <typename T> void selectionSort(T array[], const int length) {
+    for (int i = 1; i < length; i++)
+    {
+      for (int j = i; j > 0; j--)
+      {
+        if (array[j] < array[j - 1])
+        {
+          swap(array[j], array[j - 1]);
+        }
+      }
+    }
+  }
+
+  // Performs an in-place ascending sort of *array* of size *length*
+  // using the insertion sort algorithm
+  template <typename T> void insertionSort(T array[], const int length) {
     int indexSmallest = 0, indexSorted = 0;
     while (indexSorted < length)
     {
@@ -70,21 +85,6 @@ namespace csi281 {
       swap(array[indexSmallest], array[indexSorted]);
       indexSorted++;
       indexSmallest = indexSorted;
-    }
-  }
-
-  // Performs an in-place ascending sort of *array* of size *length*
-  // using the insertion sort algorithm
-  template <typename T> void insertionSort(T array[], const int length) {
-    for (int i = 1; i < length; i++)
-    {
-      for (int j = i; j > 0; j--)
-      {
-        if (array[j] < array[j - 1])
-        {
-          swap(array[j], array[j - 1]);
-        }
-      }
     }
   }
 }  // namespace csi281
