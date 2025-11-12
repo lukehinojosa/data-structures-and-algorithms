@@ -1,0 +1,26 @@
+Luke Hinojosa
+
+1. Instead of choosing the edge with the minimum weight to connect a vertex in the spanning tree to a vertex outside the
+   tree, you select the edge with the maximum weight to create a maximum spanning tree.
+
+2. A minimum-spanning-tree finds the cheapest way to connect all vertices in a graph, whereas a solution to the
+   Traveling Salesman problem finds the shortest possible path that visits each vertex exactly once and returns to the
+   starting point.
+
+3. |               | San Francisco | Los Angeles | Riverside | Phoenix | Chicago |
+   |---------------|---------------|-------------|-----------|---------|---------|
+   | San Francisco | 0             | 348         | 386       |         |         |
+   | Los Angeles   | 348           | 0           | 50        | 357     |         |
+   | Riverside     | 386           | 50          | 0         | 307     | 1704    |
+   | Phoenix       |               | 357         | 307       | 0       |         |
+   | Chicago       |               |             | 1704      |         | 0       |
+
+4. With a priority queue: The time complexity is O(E log V).
+   Without a priority queue: The time complexity is O(V^2).
+
+5. It always selects the lowest-weight edge.
+
+6. https://en.wikipedia.org/wiki/RSA_cryptosystem
+   The RSA algorithm, used for secure data transmission, was first invented by Clifford Cocks in 1973.
+   He did not receive credit because his work for the British intelligence agency GCHQ was classified as top secret and
+   hidden from the public.
