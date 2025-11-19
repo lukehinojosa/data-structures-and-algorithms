@@ -58,7 +58,8 @@ namespace csi281 {
     // for HEAP-MAXIMUM()
     // NOTE: Our heap starts at 0, not 1
     T peek() {
-      // YOUR CODE HERE
+      // In a max-heap, the largest element is always at the root (index 0).
+      return heap[0];
     }
 
     // Remove the next element (max element) in the heap and return it
@@ -68,7 +69,16 @@ namespace csi281 {
     // NOTE: Do not worry about contracting the size of the backing vector
     // after a pop.
     T pop() {
-      // YOUR CODE HERE
+      // The max element is at the root of the heap.
+      T max = heap[0];
+      // Move the last element in the heap to the root.
+      heap[0] = heap[heapSize - 1];
+      // Decrease the heap size.
+      heapSize--;
+      // Restore the max-heap property by running maxHeapify on the root.
+      maxHeapify(0);
+      // Return the original max element.
+      return max;
     }
 
     // Put a new element into the priority queue
@@ -80,7 +90,26 @@ namespace csi281 {
     // NOTE: our last element is at heapSize after being push_back()ed onto
     // the end of the vector heap
     void push(T key) {
-      // YOUR CODE HERE
+      // Place the new key at the end of the heap.
+      // If the heap has grown to the capacity of the vector, expand the vector.
+      // Otherwise, reuse the space at the end of the vector.
+      if (heapSize == heap.size()) {
+          heap.push_back(key);
+      } else {
+          heap[heapSize] = key;
+      }
+      // Increment the heap size.
+      heapSize++;
+      
+      // Get the index of the new element.
+      int i = heapSize - 1;
+      
+      // Move the new element up the heap to its correct position to maintain the max-heap property.
+      // While the current node is not the root and is greater than its parent, swap it with its parent.
+      while (i > 0 && heap[parent(i)] < heap[i]) {
+          swap(heap[i], heap[parent(i)]);
+          i = parent(i);
+      }
     }
 
     // How many items are in the priority queue?
@@ -99,7 +128,28 @@ namespace csi281 {
     // TIP: See pseudocode in Introduction to Algorithm Chapter 6 page 154
     // NOTE: Macros left() and right() are defined at the top of this file
     void maxHeapify(int i) {
-      // YOUR CODE HERE
+      // Get the indices of the left and right children.
+      int l = left(i);
+      int r = right(i);
+      int largest = i;
+      
+      // Find the largest among the node and its children.
+      // Check if the left child exists and is greater than the current largest.
+      if (l < heapSize && heap[l] > heap[largest]) {
+          largest = l;
+      }
+      
+      // Check if the right child exists and is greater than the current largest.
+      if (r < heapSize && heap[r] > heap[largest]) {
+          largest = r;
+      }
+      
+      // If the largest element is not the current node, swap them.
+      if (largest != i) {
+          swap(heap[i], heap[largest]);
+          // Recursively call maxHeapify on the affected subtree.
+          maxHeapify(largest);
+      }
     }
 
     vector<T> heap;
