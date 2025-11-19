@@ -37,7 +37,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-
+#include <cassert>
 #include "MemoryLeakDetector.h"
 
 using namespace std;
@@ -127,10 +127,36 @@ namespace csi281 {
       // that can be called by calling visit(yourVertexGoesHere)
       // this aligns with the inner function visit() from the pseudo code in the slides
       auto visit = [&](V v) {
-        // YOUR CODE HERE
+        // Mark the vertex as visited
+        visited.insert(v);
+        // Add all of its outgoing edges to the frontier
+        for (const auto& edge : neighborsWithWeights(v)) {
+            // Ensure the destination vertex has not been visited to avoid cycles
+            if (visited.find(edge.to) == visited.end()) {
+                frontier.push(edge);
+            }
+        }
       };
 
-      // YOUR CODE HERE
+      // Start the algorithm from the given start vertex
+      visit(start);
+
+      // Continue while there are edges in the frontier and the MST is not yet complete.
+      while (!frontier.empty() && solution.size() < numVertices() - 1) {
+          // Get the edge with the minimum weight from the frontier
+          WeightedEdge edge = frontier.top();
+          frontier.pop();
+
+          // If the destination vertex of the edge has already been visited, skip it to prevent forming a cycle.
+          if (visited.find(edge.to) != visited.end()) {
+              continue;
+          }
+
+          // Add the edge to the MST solution
+          solution.push_back(edge);
+          // Visit the destination vertex to expand the MST
+          visit(edge.to);
+      }
 
       return solution;
     }
