@@ -114,6 +114,10 @@ namespace csi281 {
     // Returns a list of WeightedEdges composing the edges
     // in the minimum-spanning-tree
     list<WeightedEdge> mst(V start) {
+      // Handle empty graph
+      if (numVertices() == 0) {
+          return list<WeightedEdge>();
+      }
       // vertices that we have already been to
       unordered_set<V> visited = unordered_set<V>();
       // the final edges in the minimum spanning tree
